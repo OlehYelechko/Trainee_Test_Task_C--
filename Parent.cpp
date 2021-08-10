@@ -8,7 +8,7 @@ int main(int argc, char** argv){
     if(PID == 0){
         std::cout << "Child first init PID: " << getpid() << std::endl;
         execv("./Child", argv);
-    }else{
+    }else if (PID > 0){
         std::cout << "PID of parent process" << getpid() << std::endl;
         while(true){
             if (!waitpid(-1, &status, 0)){
@@ -27,6 +27,8 @@ int main(int argc, char** argv){
             }
             sleep(1);
         }
+    }else{
+        std::cerr << "Fork was unsuccessful!" <<std::endl;
     }
     return 0;
 }

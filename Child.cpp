@@ -16,12 +16,12 @@ int main(int argc, char ** argv){
                 period_of_counting = temp;
                 std::cout << "Period value is " << temp << std::endl;
             }else{
-                std::cout << "Period value passed wrong value\n";
-                std::cout << "Period value has default value\n";
+                std::cout << "Period value passed wrong value" << std::endl;
+                std::cout << "Period value has default value"<< std::endl;
             }
         }else{
-            std::cout << "Error on reading terminal argument\n";
-            std::cout << "Period value has default value\n";
+            std::cout << "Error on reading terminal argument"<< std::endl;
+            std::cout << "Period value has default value"<< std::endl;
         }    
     }
     
@@ -38,7 +38,7 @@ int main(int argc, char ** argv){
             throw 1;
         }
      }catch(int){
-        std::cerr << "Error occured when opening file!";
+        std::cerr << "Error occured when opening file!" << std::endl;
         exit(3);
      }
 
