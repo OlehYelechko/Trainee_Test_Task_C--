@@ -1,27 +1,55 @@
 #include <iostream>
 #include <fstream>
+#include <sstream>
 #include <chrono>
 #include <thread>
 
-int main(){
+
+int main(int argc, char ** argv){
+
+    int temp;
+    int period_of_counting = 1000;
+    if(argc > 1){
+        std::stringstream ss(argv[1]);
+        if(ss >> temp){
+            if(temp > 0 && temp  < 1001){
+                period_of_counting = temp;
+                std::cout << "Period value is " << temp << std::endl;
+            }else{
+                std::cout << "Period value passed wrong value\n";
+                std::cout << "Period value has default value\n";
+            }
+        }else{
+            std::cout << "Error on reading terminal argument\n";
+            std::cout << "Period value has default value\n";
+        }    
+    }
+    
+
     std::ofstream WriteCounterFile;
     std::ifstream ReadCounterFile;
     int counter;
-    while(true){
-        ReadCounterFile.open("counter.txt");
-        if(ReadCounterFile.is_open()){
+     ReadCounterFile.open("counter.txt");
+     try{
+        if(ReadCounterFile.is_open()){    
             ReadCounterFile >> counter;
+            ReadCounterFile.close();
         }else{
-            std::cout << "Error occured with opening of file\n";
+            throw 1;
         }
-        ReadCounterFile.close();
-        WriteCounterFile.open("counter.txt");
-        counter++;
-        WriteCounterFile << counter;
+     }catch(int){
+        std::cerr << "Error occured when opening file!";
+        exit(3);
+     }
+
+     while(true){
+            WriteCounterFile.open("counter.txt");
+            counter++;
+            WriteCounterFile << counter;
         
-        std::cout << counter << std::endl;
-        WriteCounterFile.close();
-        std::this_thread::sleep_for(std::chrono::milliseconds(1000));
-    }
-  
+            std::cout << counter << std::endl;
+            WriteCounterFile.close();
+            std::this_thread::sleep_for(std::chrono::milliseconds(period_of_counting));
+        }
+    return 0;
 }
