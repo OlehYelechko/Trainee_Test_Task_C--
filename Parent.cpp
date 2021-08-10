@@ -16,6 +16,10 @@ int main(int argc, char** argv){
             }else if (waitpid(-1, &status, 0) == -1){
                 std::cout << "Error" << std::endl;
                 int PIDofRestart = fork();
+                if(PIDofRestart == -1){
+                    std::cerr << "Error when restarting fork!" << std::endl;
+                    return 2;
+                }
                 if(!PIDofRestart){
                     std::cout << "Child restart PID: " << getpid() << std::endl;
                     execv("./Child", argv);
